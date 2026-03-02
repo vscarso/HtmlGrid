@@ -1,87 +1,66 @@
-📘 THTMLGrid – Componente HTML Table Builder para Lazarus / D2Bridge
-THTMLGrid é um componente visual para Lazarus que gera tabelas HTML completas, responsivas e estilizadas com Bootstrap 5, totalmente configuráveis via Object Inspector.
-Ideal para aplicações web construídas com Lazarus + D2Bridge, permitindo criar tabelas ricas sem escrever HTML manualmente.
+README.md
+markdown
+# THTMLGrid – Componente HTML Table Builder para Lazarus / D2Bridge
 
-📑 Sumário
-Introdução
+O **THTMLGrid** é um componente para Lazarus que gera tabelas HTML completas, responsivas e compatíveis com Bootstrap 5.  
+Ele foi criado para facilitar o uso de tabelas em aplicações web feitas com **Lazarus + D2Bridge**, sem precisar escrever HTML manualmente.
 
-Instalação
+O componente é totalmente configurável pelo **Object Inspector**, suporta **badges**, **botões**, **ícones**, **links**, **formatação**, **temas**, **callbacks**, e funciona com qualquer `TDataSet`.
 
-Tutorial Passo a Passo
+---
 
-Propriedades Principais
+## 📌 SUMÁRIO
 
-Configuração de Colunas
+- [Instalação](#instalação)
+- [Como usar (passo a passo)](#como-usar-passo-a-passo)
+- [Propriedades principais](#propriedades-principais)
+- [Configuração de colunas](#configuração-de-colunas)
+- [Tipos de coluna](#tipos-de-coluna)
+- [Badges](#badges)
+- [Botões e callbacks](#botões-e-callbacks)
+- [Boolean com texto personalizado](#boolean-com-texto-personalizado)
+- [Temas](#temas)
+- [AutoGenerateColumns](#autogeneratecolumns)
+- [Exemplos completos](#exemplos-completos)
+- [Erros comuns e soluções](#erros-comuns-e-soluções)
+- [Boas práticas](#boas-práticas)
 
-Tipos de Coluna
+---
 
-Badges
+# Instalação
 
-Botões e Callbacks
-
-Boolean com Texto Personalizado
-
-Temas e Estilos Visuais
-
-AutoGenerateColumns
-
-Exemplos Completos
-
-Troubleshooting (Erros Comuns)
-
-Boas Práticas
-
-🧩 Introdução
-THTMLGrid transforma qualquer TDataSet em uma tabela HTML moderna, responsiva e personalizável.
-Ele foi projetado para:
-
-Evitar HTML manual
-
-Padronizar tabelas no sistema
-
-Integrar com callbacks do D2Bridge
-
-Ser configurado visualmente no Lazarus
-
-Ser responsivo (celular, tablet, desktop)
-
-Usar Bootstrap 5 automaticamente
-
-O componente não interfere no D2Bridge — ele apenas gera HTML.
-
-⚙️ Instalação
-Abra o Lazarus.
-
-Crie um novo pacote:
-Package → New Package
-
-Adicione a unit uHTMLGrid.pas ao pacote.
-
-Em Required Packages, adicione:
-
-LCL
-
-LazUtils
-
-Compile o pacote.
-
-Instale:
-Package → Install
+1. Abra o Lazarus.
+2. Crie um novo pacote: **Package → New Package**
+3. Adicione o arquivo `uHTMLGrid.pas` ao pacote.
+4. Em **Required Packages**, adicione:
+   - `LCL`
+   - `LazUtils`
+5. Compile o pacote.
+6. Instale o pacote: **Package → Install**
 
 O componente aparecerá na paleta:
 
-Código
 Vitor Components → THTMLGrid
-🚀 Tutorial Passo a Passo
-1) Arraste o componente para o form
-No Object Inspector:
 
 Código
+
+---
+
+# Como usar (passo a passo)
+
+## 1) Coloque o componente no form
+
+No Object Inspector:
+
 DataSet = ZQuery1
 GridName = GridProfissionais
 AutoGenerateColumns = True
-2) Abra o DataSet antes de gerar o HTML
-pascal
+
+Código
+
+## 2) Abra o DataSet em tempo de execução
+
+```pascal
 ZQuery1.Open;
 3) Gere o HTML
 pascal
@@ -91,53 +70,105 @@ pascal
 HTMLElement('tabela').InnerHTML := HTML;
 5) Trate callbacks no form
 pascal
-procedure TFrmLocProfissionais.CallBack(const CallBackName: string; EventParams: TStrings);
+procedure TFrmProfissionais.CallBack(const CallBackName: string; EventParams: TStrings);
 begin
   if SameText(CallBackName, 'GridProfissionais.Edit') then
     ShowMessage('Editar ID: ' + EventParams.Values['ID']);
 end;
+Propriedades principais
+DataSet
+Dataset que será lido para gerar a tabela.
 
-🧱 Propriedades Principais
-Propriedade	Descrição
-DataSet	Fonte de dados
-GridName	Nome lógico usado nos callbacks
-Columns	Lista de colunas configuráveis
-AutoGenerateColumns	Gera colunas automaticamente
-UseBootstrapTheme	Usa classes Bootstrap
-BootstrapTableClass	Classes CSS da tabela
-Theme	Tema visual
-BackgroundImage	Imagem de fundo
-FontName, FontSize, FontColor	Estilo de fonte
-BorderColor, BorderWidth	Bordas
-StripedRows, HoverHighlight	Estilos de linha
-📊 Configuração de Colunas
-Cada coluna (TGridColumn) possui:
+GridName
+Nome lógico usado nos callbacks do D2Bridge.
 
-FieldName
+Exemplo:
 
-Title
+Código
+GridName = 'GridProfissionais'
+Gera:
 
-ColumnType
+Código
+{{CallBack=GridProfissionais.Edit(ID=10)}}
+Columns
+Lista de colunas configuráveis.
 
-Width
+AutoGenerateColumns
+Se True, o componente cria colunas automaticamente somente se Columns estiver vazio.
 
-Align
+UseBootstrapTheme
+Se True, usa classes Bootstrap como:
 
-Visible
+Código
+table table-striped table-hover table-bordered table-sm
+BootstrapTableClass
+Permite trocar o estilo da tabela.
 
-BadgeRules
+Exemplo:
 
-Buttons
+Código
+table table-dark table-striped
+Propriedades visuais
+FontName
 
-IconClass
+FontSize
 
-TooltipField
+FontColor
 
-LinkField
+HeaderBackground
 
-FormatMask
+HeaderFontColor
 
-🧱 Tipos de Coluna
+RowBackground
+
+RowAlternateBackground
+
+BorderColor
+
+BorderWidth
+
+RoundedCorners
+
+HoverHighlight
+
+StripedRows
+
+CompactMode
+
+BackgroundImage
+
+BackgroundMode
+
+Todas geram CSS inline, ideal para D2Bridge.
+
+Configuração de colunas
+Cada coluna possui:
+
+FieldName → nome do campo do DataSet
+
+Title → texto exibido no cabeçalho
+
+ColumnType → tipo da coluna
+
+Width → largura em pixels
+
+Align → alinhamento (left, center, right)
+
+Visible → mostra ou oculta
+
+BadgeRules → regras de badge
+
+Buttons → botões da coluna
+
+IconClass → classe de ícone (FontAwesome)
+
+TooltipField → campo usado como tooltip
+
+LinkField → campo usado como link
+
+FormatMask → máscara de formatação
+
+Tipos de coluna
 Tipo	Descrição
 ctText	Texto simples
 ctBadge	Badge Bootstrap
@@ -146,8 +177,10 @@ ctCheckBox	Checkbox desabilitado
 ctIconText	Ícone + texto
 ctLink	Link clicável
 ctFormatted	Formatação de datas/números
-🏷️ Badges
-Badges são configurados por regras:
+Badges
+Badges permitem trocar texto e cor conforme o valor do campo.
+
+Exemplo:
 
 pascal
 with HTMLGrid1.Columns[2].BadgeRules.Add do
@@ -156,11 +189,19 @@ begin
   CssClass := 'bg-success';
   Text := 'Ativo';
 end;
-HTML gerado:
 
-html
-<span class="badge bg-success rounded-pill p-2">Ativo</span>
-🔘 Botões e Callbacks
+with HTMLGrid1.Columns[2].BadgeRules.Add do
+begin
+  MatchValue := '0';
+  CssClass := 'bg-danger';
+  Text := 'Inativo';
+end;
+Resultado:
+
+Código
+Ativo   (verde)
+Inativo (vermelho)
+Botões e callbacks
 Cada coluna pode ter vários botões.
 
 Exemplo:
@@ -182,81 +223,81 @@ Callback:
 pascal
 if SameText(CallBackName, 'GridProfissionais.Edit') then
   ShowMessage(EventParams.Values['ID']);
-🔄 Boolean com Texto Personalizado
+Boolean com texto personalizado
 Existem 3 formas de trocar o texto de campos booleanos:
 
-✔️ 1) Usar ctBadge (recomendado)
+1) Usar ctBadge (recomendado)
 pascal
 MatchValue = '1' → Text = 'Ativo'
 MatchValue = '0' → Text = 'Inativo'
-✔️ 2) Usar ctFormatted com máscara
+2) Usar ctFormatted com máscara
 pascal
 FormatMask = 'Ativo;Inativo'
-✔️ 3) Usar ctBooleanText (se habilitado)
-pascal
-TrueText = 'Sim'
-FalseText = 'Não'
-🎨 Temas e Estilos Visuais
-Temas prontos:
+3) Usar ctCheckBox
+Mostra checkbox marcado ou não.
 
-Default
+Temas
+O componente possui temas prontos:
 
-Light
+gtDefault
 
-Dark
+gtLight
 
-Corporate
+gtDark
 
-Minimal
+gtCorporate
 
-Colorful
+gtMinimal
 
-Propriedades visuais:
+gtColorful
 
-Fonte
+Como usar
+No Object Inspector:
 
-Tamanho
+Código
+Theme = gtDark
+Importante:
+O tema só altera:
 
-Cor
+Cabeçalho
 
-Fundo
-
-Imagem de fundo
+Linhas
 
 Bordas
 
-Hover
+Cores padrão
 
-Linhas alternadas
+Se você sobrescrever manualmente alguma cor, ela prevalece sobre o tema.
 
-Compact mode
+AutoGenerateColumns
+Como funciona
+Se:
 
-Tudo gerado como CSS inline.
+AutoGenerateColumns = True
 
-⚡ AutoGenerateColumns
-Quando AutoGenerateColumns = True:
+Columns.Count = 0
 
-Lê os fields do DataSet
+DataSet.Active = True
 
-Cria colunas automaticamente
+Então o componente cria automaticamente:
 
-Define tipo básico (text / formatted)
+Uma coluna para cada campo
 
-Não cria badges, botões ou ícones automaticamente.  
-Você controla tudo.
+Tipo básico (text ou formatted)
 
 Importante:
-AutoGenerateColumns só funciona se Columns.Count = 0.
+Ele não cria badges, botões ou ícones automaticamente.
 
-🧪 Exemplos Completos
+Dica:
+Abra o DataSet em runtime, não precisa deixar ativo no design.
+
+Exemplos completos
 Exemplo 1 — Tabela simples
 pascal
-HTMLGrid1.DataSet := ZProfissionais;
-HTMLGrid1.GridName := 'GridProfissionais';
-
+ZProfissionais.Open;
 HTML := HTMLGrid1.TabelaGerada;
 HTMLElement('tabela').InnerHTML := HTML;
-Exemplo 2 — Coluna com badge
+Exemplo 2 — Badge de status
 pascal
 with HTMLGrid1.Columns.Add do
 begin
@@ -278,7 +319,7 @@ begin
     Text := 'Inativo';
   end;
 end;
-Exemplo 3 — Coluna com múltiplos botões
+Exemplo 3 — Botões de ação
 pascal
 with HTMLGrid1.Columns.Add do
 begin
@@ -302,51 +343,49 @@ begin
     ParamField := 'ID';
   end;
 end;
-🛠️ Troubleshooting (Erros Comuns)
+Erros comuns e soluções
 ❗ AutoGenerateColumns não funciona
 Causa: Columns.Count > 0
 Solução: Limpe todas as colunas antes de gerar.
 
 ❗ Boolean aparece como True/False
-Use uma das opções:
+Use:
 
 ctBadge
 
 ctFormatted com máscara
 
-ctBooleanText
+ctCheckBox
 
 ❗ Badge não muda de cor
 Verifique:
 
-MatchValue corresponde ao valor real do campo
+MatchValue corresponde ao valor real
 
 CssClass existe no Bootstrap
 
 ❗ Callback não dispara
 Verifique:
 
-GridName está correto
+GridName correto
 
-ButtonID está correto
+ButtonID correto
 
 ParamField existe no DataSet
 
-CallBack do form está implementado
+CallBack implementado no form
 
 ❗ Bootstrap não aplica estilo
 Verifique:
 
 Bootstrap 5 está carregado no HTML principal
 
-Não há conflito de CSS externo
-
 ❗ Erro “Graphics not found”
 Adicione dependência:
 
 Código
 LCL
-🧭 Boas Práticas
+Boas práticas
 Sempre defina GridName
 
 Use ctFormatted para datas e valores
@@ -360,4 +399,3 @@ Use ctIconText para colunas visuais
 Use temas para padronizar o sistema
 
 Use AutoGenerateColumns para prototipagem rápida
-

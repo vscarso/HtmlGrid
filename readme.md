@@ -96,6 +96,7 @@ begin
   if SameText(CallBackName, 'GridProfissionais.Edit') then
     ShowMessage('Editar ID: ' + EventParams.Values['ID']);
 end;
+
 🧱 Propriedades Principais
 Propriedade	Descrição
 DataSet	Fonte de dados
@@ -359,3 +360,4 @@ Use ctIconText para colunas visuais
 Use temas para padronizar o sistema
 
 Use AutoGenerateColumns para prototipagem rápida
+

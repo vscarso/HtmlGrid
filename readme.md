@@ -1,401 +1,151 @@
-README.md
-markdown
-# THTMLGrid – Componente HTML Table Builder para Lazarus / D2Bridge
+# 🚀 THTMLGrid – Gerador de Tabelas HTML para Lazarus & D2Bridge
 
-O **THTMLGrid** é um componente para Lazarus que gera tabelas HTML completas, responsivas e compatíveis com Bootstrap 5.  
-Ele foi criado para facilitar o uso de tabelas em aplicações web feitas com **Lazarus + D2Bridge**, sem precisar escrever HTML manualmente.
-
-O componente é totalmente configurável pelo **Object Inspector**, suporta **badges**, **botões**, **ícones**, **links**, **formatação**, **temas**, **callbacks**, e funciona com qualquer `TDataSet`.
+O **THTMLGrid** é um componente avançado para Lazarus projetado para criar tabelas HTML profissionais, responsivas e totalmente compatíveis com **Bootstrap 5**. Ele foi desenvolvido especificamente para o ecossistema **D2Bridge**, permitindo que desenvolvedores Delphi/Lazarus criem interfaces web ricas sem a necessidade de escrever código HTML ou CSS manualmente.
 
 ---
 
-## 📌 SUMÁRIO
+## 📌 Sumário
 
-- [Instalação](#instalação)
-- [Como usar (passo a passo)](#como-usar-passo-a-passo)
-- [Propriedades principais](#propriedades-principais)
-- [Configuração de colunas](#configuração-de-colunas)
-- [Tipos de coluna](#tipos-de-coluna)
-- [Badges](#badges)
-- [Botões e callbacks](#botões-e-callbacks)
-- [Boolean com texto personalizado](#boolean-com-texto-personalizado)
-- [Temas](#temas)
-- [AutoGenerateColumns](#autogeneratecolumns)
-- [Exemplos completos](#exemplos-completos)
-- [Erros comuns e soluções](#erros-comuns-e-soluções)
-- [Boas práticas](#boas-práticas)
+- [✨ Principais Recursos](#-principais-recursos)
+- [📦 Instalação](#-instalação)
+- [🛠️ Propriedades do Componente](#️-propriedades-do-componente)
+- [📋 Configuração de Colunas](#-configuração-de-colunas)
+- [🎨 Temas e Customização](#-temas-e-customização)
+- [🔗 Integração com D2Bridge (Callbacks)](#-integração-com-d2bridge-callbacks)
+- [👁️ Preview e Prototipagem](#️-preview-e-prototipagem)
+- [💾 Persistência (JSON)](#-persistência-json)
+- [💡 Exemplos Práticos](#-exemplos-práticos)
 
 ---
 
-# Instalação
+## ✨ Principais Recursos
 
-1. Abra o Lazarus.
-2. Crie um novo pacote: **Package → New Package**
-3. Adicione o arquivo `uHTMLGrid.pas` ao pacote.
-4. Em **Required Packages**, adicione:
-   - `LCL`
-   - `LazUtils`
-5. Compile o pacote.
-6. Instale o pacote: **Package → Install**
-
-O componente aparecerá na paleta:
-
-Vitor Components → THTMLGrid
-
-Código
+- **100% Bootstrap 5**: Gera tabelas com classes nativas e estilos modernos.
+- **Responsividade Automática**: Suporte nativo a `table-responsive`.
+- **Tipos de Coluna Ricos**: Texto, Badge, Botões, Dropdowns, Checkbox, Links, Formatação e Multi-Elementos.
+- **Sistema de Temas**: Troca rápida de visual (Light, Dark, Corporate, Minimal, etc.).
+- **Preview no Navegador**: Visualize o grid com dados fictícios inteligentes antes mesmo de rodar a aplicação.
+- **Flexbox Layout**: Alinhamento perfeito de ícones e textos usando classes flex.
+- **Customização por Coluna**: Propriedade `CssClass` individual para cada coluna.
+- **Dados Fictícios Inteligentes**: Preenchimento automático de nomes, datas, valores e emails para testes de layout.
 
 ---
 
-# Como usar (passo a passo)
+## 📦 Instalação
 
-## 1) Coloque o componente no form
+1. No Lazarus, vá em **Package** -> **Open Package File (.lpk)**.
+2. Selecione o arquivo `HTMLGrid.lpk`.
+3. Clique em **Compile** e depois em **Install**.
+4. O componente estará disponível na paleta **VSComponents**.
 
-No Object Inspector:
+---
 
-DataSet = ZQuery1
-GridName = GridProfissionais
-AutoGenerateColumns = True
+## 🛠️ Propriedades do Componente
 
-Código
+### Gerais
+- **`DataSet`**: O `TDataSet` (ZQuery, MemTable, etc.) que servirá de fonte de dados.
+- **`GridName`**: Nome identificador do grid (usado nos prefixos de callback).
+- **`AutoGenerateColumns`**: Se `True`, cria colunas automaticamente baseadas no DataSet ao abrir.
+- **`Responsive`**: Envolve a tabela em uma `div` responsiva (Padrão: `True`).
 
-## 2) Abra o DataSet em tempo de execução
+### Estilo e Visual
+- **`Theme`**: Seleciona um tema pré-definido (`gtDefault`, `gtLight`, `gtDark`, `gtCorporate`, `gtMinimal`, `gtColorful`).
+- **`UseBootstrapTheme`**: Ativa/Desativa o uso de classes Bootstrap.
+- **`BootstrapTableClass`**: Classes CSS da tabela (Padrão: `table table-striped table-hover table-bordered table-sm`).
+- **`FontName`, `FontSize`, `FontColor`**: Configurações globais de tipografia.
+- **`HeaderBackground`, `HeaderFontColor`**: Cores do cabeçalho.
+- **`RowBackground`, `RowAlternateBackground`**: Cores das linhas (zebra).
+
+---
+
+## 📋 Configuração de Colunas
+
+Cada item na coleção `Columns` possui:
+
+- **`FieldName`**: Nome do campo no banco de dados.
+- **`Title`**: Texto que aparece no cabeçalho.
+- **`ColumnType`**: Define como os dados serão renderizados:
+  - `ctText`: Texto simples.
+  - `ctBadge`: Etiquetas coloridas baseadas em regras (`BadgeRules`).
+  - `ctButton`: Um ou mais botões de ação (`Buttons`).
+  - `ctDropdown`: Menu de ações suspenso (`DropdownOptions`).
+  - `ctLink`: Texto clicável com URL (`LinkField`).
+  - `ctFormatted`: Valores formatados via máscara (`FormatMask`).
+  - `ctMultiElement`: Combinação de Texto + Badge + Botões na mesma célula.
+- **`CssClass`**: Classe CSS personalizada aplicada apenas a esta coluna.
+- **`Align`**: Alinhamento horizontal (Esquerda, Centro, Direita).
+
+---
+
+## 🎨 Temas e Customização
+
+Ao alterar a propriedade `Theme`, o componente aplica automaticamente um conjunto de cores harmônicas. Você ainda pode sobrescrever cores individuais após selecionar um tema.
+
+**Dica**: Use a propriedade `CssClass` de uma coluna para aplicar cores específicas do Bootstrap, como `text-primary` ou `fw-bold`.
+
+---
+
+## 🔗 Integração com D2Bridge (Callbacks)
+
+O `THTMLGrid` gera automaticamente a sintaxe de callback do D2Bridge: `{{CallBack=GridName.Acao(Param=Valor)}}`.
+
+### Exemplo de Botão:
+1. Configure `GridName` para `GridVendas`.
+2. Adicione um botão com `ButtonID` = `Estornar`.
+3. Configure `ParamField` = `ID_VENDA`.
+4. No Lazarus, trate o evento:
 
 ```pascal
-ZQuery1.Open;
-3) Gere o HTML
-pascal
-HTML := HTMLGrid1.TabelaGerada;
-4) Envie para o D2Bridge
-pascal
-HTMLElement('tabela').InnerHTML := HTML;
-5) Trate callbacks no form
-pascal
-procedure TFrmProfissionais.CallBack(const CallBackName: string; EventParams: TStrings);
+procedure TForm1.D2BridgeCallBack(const CallBackName: string; Params: TStrings);
 begin
-  if SameText(CallBackName, 'GridProfissionais.Edit') then
-    ShowMessage('Editar ID: ' + EventParams.Values['ID']);
+  if SameText(CallBackName, 'GridVendas.Estornar') then
+    ShowMessage('Estornando venda ID: ' + Params.Values['ID_VENDA']);
 end;
-Propriedades principais
-DataSet
-Dataset que será lido para gerar a tabela.
+```
 
-GridName
-Nome lógico usado nos callbacks do D2Bridge.
+---
 
-Exemplo:
+## 👁️ Preview e Prototipagem
 
-Código
-GridName = 'GridProfissionais'
-Gera:
+O componente oferece duas formas de visualizar seu trabalho:
+1. **Preview HTML**: Mostra o código-fonte gerado.
+2. **Preview no Navegador**: Salva um arquivo HTML temporário na pasta do seu projeto e o abre no navegador padrão. 
+   - Utiliza **Dados Fictícios Inteligentes** (nomes reais, datas válidas, etc.).
+   - Carrega Bootstrap e FontAwesome via CDN para um visual fiel ao real.
 
-Código
-{{CallBack=GridProfissionais.Edit(ID=10)}}
-Columns
-Lista de colunas configuráveis.
+---
 
-AutoGenerateColumns
-Se True, o componente cria colunas automaticamente somente se Columns estiver vazio.
+## 💾 Persistência (JSON)
 
-UseBootstrapTheme
-Se True, usa classes Bootstrap como:
+Você pode salvar e carregar toda a configuração do Grid (colunas, regras, botões, cores) usando arquivos JSON.
+- **No IDE**: Clique com o botão direito no componente para **Exportar/Importar**.
+- **Via Código**: Use `SaveToFile('config.json')` e `LoadFromFile('config.json')`.
 
-Código
-table table-striped table-hover table-bordered table-sm
-BootstrapTableClass
-Permite trocar o estilo da tabela.
+---
 
-Exemplo:
+## 💡 Exemplos Práticos
 
-Código
-table table-dark table-striped
-Propriedades visuais
-FontName
-
-FontSize
-
-FontColor
-
-HeaderBackground
-
-HeaderFontColor
-
-RowBackground
-
-RowAlternateBackground
-
-BorderColor
-
-BorderWidth
-
-RoundedCorners
-
-HoverHighlight
-
-StripedRows
-
-CompactMode
-
-BackgroundImage
-
-BackgroundMode
-
-Todas geram CSS inline, ideal para D2Bridge.
-
-Configuração de colunas
-Cada coluna possui:
-
-FieldName → nome do campo do DataSet
-
-Title → texto exibido no cabeçalho
-
-ColumnType → tipo da coluna
-
-Width → largura em pixels
-
-Align → alinhamento (left, center, right)
-
-Visible → mostra ou oculta
-
-BadgeRules → regras de badge
-
-Buttons → botões da coluna
-
-IconClass → classe de ícone (FontAwesome)
-
-TooltipField → campo usado como tooltip
-
-LinkField → campo usado como link
-
-FormatMask → máscara de formatação
-
-Tipos de coluna
-Tipo	Descrição
-ctText	Texto simples
-ctBadge	Badge Bootstrap
-ctButton	Um ou vários botões
-ctCheckBox	Checkbox desabilitado
-ctIconText	Ícone + texto
-ctLink	Link clicável
-ctFormatted	Formatação de datas/números
-Badges
-Badges permitem trocar texto e cor conforme o valor do campo.
-
-Exemplo:
-
-pascal
-with HTMLGrid1.Columns[2].BadgeRules.Add do
+### Configurando uma Coluna de Status (Badge)
+```pascal
+with MyGrid.Columns.Add do
 begin
-  MatchValue := '1';
-  CssClass := 'bg-success';
-  Text := 'Ativo';
-end;
-
-with HTMLGrid1.Columns[2].BadgeRules.Add do
-begin
-  MatchValue := '0';
-  CssClass := 'bg-danger';
-  Text := 'Inativo';
-end;
-Resultado:
-
-Código
-Ativo   (verde)
-Inativo (vermelho)
-Botões e callbacks
-Cada coluna pode ter vários botões.
-
-Exemplo:
-
-pascal
-with HTMLGrid1.Columns[3].Buttons.Add do
-begin
-  ButtonID := 'Edit';
-  CssClass := 'btn btn-sm btn-primary';
-  IconClass := 'fa fa-edit';
-  ParamField := 'ID';
-end;
-HTML gerado:
-
-html
-<button onclick="{{CallBack=GridProfissionais.Edit(ID=10)}}">...</button>
-Callback:
-
-pascal
-if SameText(CallBackName, 'GridProfissionais.Edit') then
-  ShowMessage(EventParams.Values['ID']);
-Boolean com texto personalizado
-Existem 3 formas de trocar o texto de campos booleanos:
-
-1) Usar ctBadge (recomendado)
-pascal
-MatchValue = '1' → Text = 'Ativo'
-MatchValue = '0' → Text = 'Inativo'
-2) Usar ctFormatted com máscara
-pascal
-FormatMask = 'Ativo;Inativo'
-3) Usar ctCheckBox
-Mostra checkbox marcado ou não.
-
-Temas
-O componente possui temas prontos:
-
-gtDefault
-
-gtLight
-
-gtDark
-
-gtCorporate
-
-gtMinimal
-
-gtColorful
-
-Como usar
-No Object Inspector:
-
-Código
-Theme = gtDark
-Importante:
-O tema só altera:
-
-Cabeçalho
-
-Linhas
-
-Bordas
-
-Cores padrão
-
-Se você sobrescrever manualmente alguma cor, ela prevalece sobre o tema.
-
-AutoGenerateColumns
-Como funciona
-Se:
-
-AutoGenerateColumns = True
-
-Columns.Count = 0
-
-DataSet.Active = True
-
-Então o componente cria automaticamente:
-
-Uma coluna para cada campo
-
-Tipo básico (text ou formatted)
-
-Importante:
-Ele não cria badges, botões ou ícones automaticamente.
-
-Dica:
-Abra o DataSet em runtime, não precisa deixar ativo no design.
-
-Exemplos completos
-Exemplo 1 — Tabela simples
-pascal
-ZProfissionais.Open;
-HTML := HTMLGrid1.TabelaGerada;
-HTMLElement('tabela').InnerHTML := HTML;
-Exemplo 2 — Badge de status
-pascal
-with HTMLGrid1.Columns.Add do
-begin
-  FieldName := 'Status';
-  Title := 'Status';
+  FieldName := 'ATIVO';
+  Title := 'Situação';
   ColumnType := ctBadge;
-
   with BadgeRules.Add do
   begin
-    MatchValue := '1';
-    CssClass := 'bg-primary';
+    MatchValue := 'T';
     Text := 'Ativo';
+    CssClass := 'bg-success';
   end;
-
   with BadgeRules.Add do
   begin
-    MatchValue := '0';
-    CssClass := 'bg-secondary';
+    MatchValue := 'F';
     Text := 'Inativo';
+    CssClass := 'bg-danger';
   end;
 end;
-Exemplo 3 — Botões de ação
-pascal
-with HTMLGrid1.Columns.Add do
-begin
-  FieldName := 'ID';
-  Title := 'Ações';
-  ColumnType := ctButton;
+```
 
-  with Buttons.Add do
-  begin
-    ButtonID := 'Edit';
-    CssClass := 'btn btn-sm btn-primary';
-    IconClass := 'fa fa-edit';
-    ParamField := 'ID';
-  end;
-
-  with Buttons.Add do
-  begin
-    ButtonID := 'Delete';
-    CssClass := 'btn btn-sm btn-danger';
-    IconClass := 'fa fa-trash';
-    ParamField := 'ID';
-  end;
-end;
-Erros comuns e soluções
-❗ AutoGenerateColumns não funciona
-Causa: Columns.Count > 0
-Solução: Limpe todas as colunas antes de gerar.
-
-❗ Boolean aparece como True/False
-Use:
-
-ctBadge
-
-ctFormatted com máscara
-
-ctCheckBox
-
-❗ Badge não muda de cor
-Verifique:
-
-MatchValue corresponde ao valor real
-
-CssClass existe no Bootstrap
-
-❗ Callback não dispara
-Verifique:
-
-GridName correto
-
-ButtonID correto
-
-ParamField existe no DataSet
-
-CallBack implementado no form
-
-❗ Bootstrap não aplica estilo
-Verifique:
-
-Bootstrap 5 está carregado no HTML principal
-
-❗ Erro “Graphics not found”
-Adicione dependência:
-
-Código
-LCL
-Boas práticas
-Sempre defina GridName
-
-Use ctFormatted para datas e valores
-
-Use ctBadge para status
-
-Use ctButton para ações
-
-Use ctIconText para colunas visuais
-
-Use temas para padronizar o sistema
-
-Use AutoGenerateColumns para prototipagem rápida
+---
+Gerado por **D2Bridge Assistant** - 2026

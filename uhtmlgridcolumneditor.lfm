@@ -1,0 +1,285 @@
+object frmHTMLGridColumnEditor: TfrmHTMLGridColumnEditor
+  Left = 200
+  Top = 200
+  Width = 700
+  Height = 520
+  Caption = 'Editor de Colunas - THTMLGrid'
+  ClientWidth = 700
+  ClientHeight = 520
+  Position = poScreenCenter
+  OnShow = FormShow
+
+  object lstColumns: TListBox
+    Left = 10
+    Top = 10
+    Width = 200
+    Height = 420
+    ItemHeight = 16
+    TabOrder = 0
+    OnClick = lstColumnsClick
+  end
+
+  object btnAdd: TButton
+    Left = 10
+    Top = 440
+    Width = 45
+    Height = 25
+    Caption = '+'
+    TabOrder = 1
+    OnClick = btnAddClick
+  end
+
+  object btnDelete: TButton
+    Left = 60
+    Top = 440
+    Width = 45
+    Height = 25
+    Caption = '-'
+    TabOrder = 2
+    OnClick = btnDeleteClick
+  end
+
+  object btnUp: TButton
+    Left = 110
+    Top = 440
+    Width = 45
+    Height = 25
+    Caption = '↑'
+    TabOrder = 3
+    OnClick = btnUpClick
+  end
+
+  object btnDown: TButton
+    Left = 160
+    Top = 440
+    Width = 45
+    Height = 25
+    Caption = '↓'
+    TabOrder = 4
+    OnClick = btnDownClick
+  end
+
+  object gbGeneral: TGroupBox
+    Left = 220
+    Top = 10
+    Width = 460
+    Height = 120
+    Caption = 'Geral'
+    TabOrder = 5
+
+    object lblFieldName: TLabel
+      Left = 10
+      Top = 25
+      Caption = 'FieldName:'
+    end
+
+    object edtFieldName: TEdit
+      Left = 100
+      Top = 22
+      Width = 340
+      Height = 23
+      TabOrder = 0
+    end
+
+    object lblTitle: TLabel
+      Left = 10
+      Top = 55
+      Caption = 'Title:'
+    end
+
+    object edtTitle: TEdit
+      Left = 100
+      Top = 52
+      Width = 340
+      Height = 23
+      TabOrder = 1
+    end
+
+    object lblColumnType: TLabel
+      Left = 10
+      Top = 85
+      Caption = 'ColumnType:'
+    end
+
+    object cbColumnType: TComboBox
+      Left = 100
+      Top = 82
+      Width = 200
+      Height = 23
+      Style = csDropDownList
+      TabOrder = 2
+    end
+  end
+
+  object gbAppearance: TGroupBox
+    Left = 220
+    Top = 140
+    Width = 460
+    Height = 120
+    Caption = 'Aparência'
+    TabOrder = 6
+
+    object lblWidth: TLabel
+      Left = 10
+      Top = 25
+      Caption = 'Width:'
+    end
+
+    object seWidth: TSpinEdit
+      Left = 100
+      Top = 22
+      Width = 80
+      Height = 23
+      MaxValue = 2000
+      MinValue = 0
+      TabOrder = 0
+    end
+
+    object lblAlign: TLabel
+      Left = 10
+      Top = 55
+      Caption = 'Align:'
+    end
+
+    object cbAlign: TComboBox
+      Left = 100
+      Top = 52
+      Width = 200
+      Height = 23
+      Style = csDropDownList
+      TabOrder = 1
+    end
+
+    object lblVisible: TLabel
+      Left = 10
+      Top = 85
+      Caption = 'Visible:'
+    end
+
+    object chkVisible: TCheckBox
+      Left = 100
+      Top = 82
+      Width = 20
+      Height = 23
+      TabOrder = 2
+    end
+  end
+
+  object gbAdvanced: TGroupBox
+    Left = 220
+    Top = 270
+    Width = 460
+    Height = 160
+    Caption = 'Avançado'
+    TabOrder = 7
+
+    object lblFormatMask: TLabel
+      Left = 10
+      Top = 25
+      Caption = 'FormatMask:'
+    end
+
+    object edtFormatMask: TEdit
+      Left = 100
+      Top = 22
+      Width = 340
+      Height = 23
+      TabOrder = 0
+    end
+
+    object lblIconClass: TLabel
+      Left = 10
+      Top = 55
+      Caption = 'IconClass:'
+    end
+
+    object edtIconClass: TEdit
+      Left = 100
+      Top = 52
+      Width = 340
+      Height = 23
+      TabOrder = 1
+    end
+
+    object lblTooltipField: TLabel
+      Left = 10
+      Top = 85
+      Caption = 'TooltipField:'
+    end
+
+    object edtTooltipField: TEdit
+      Left = 100
+      Top = 82
+      Width = 340
+      Height = 23
+      TabOrder = 2
+    end
+
+    object lblLinkField: TLabel
+      Left = 10
+      Top = 115
+      Caption = 'LinkField:'
+    end
+
+    object edtLinkField: TEdit
+      Left = 100
+      Top = 112
+      Width = 340
+      Height = 23
+      TabOrder = 3
+    end
+  end
+
+  object btnEditBadgeRules: TButton
+    Left = 220
+    Top = 440
+    Width = 140
+    Height = 25
+    Caption = 'Editar BadgeRules...'
+    Enabled = False
+    TabOrder = 8
+  end
+
+  object btnEditButtons: TButton
+    Left = 370
+    Top = 440
+    Width = 140
+    Height = 25
+    Caption = 'Editar Buttons...'
+    Enabled = False
+    TabOrder = 9
+  end
+
+  object btnOK: TButton
+    Left = 540
+    Top = 440
+    Width = 65
+    Height = 25
+    Caption = 'OK'
+    ModalResult = 1
+    TabOrder = 10
+    OnClick = btnOKClick
+  end
+
+  object btnCancel: TButton
+    Left = 615
+    Top = 440
+    Width = 65
+    Height = 25
+    Caption = 'Cancelar'
+    ModalResult = 2
+    TabOrder = 11
+    OnClick = btnCancelClick
+  end
+
+  object btnSync: TButton
+    Left = 10
+    Top = 475
+    Width = 200
+    Height = 25
+    Caption = 'Sincronizar com DataSet'
+    TabOrder = 12
+    OnClick = btnSyncClick
+  end
+
+end
